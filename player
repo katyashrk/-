@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace HotelEnd.gameobj
+{
+    public class Player
+    {
+        public PictureBox PlayerPictureBox;
+        public Point Location { get; set; } // Позиция игрока на экране
+        public int Speed { get; set; } // Скорость движения игрока
+
+        public Player(Point location, int speed)
+        {
+            Location = location;
+            Speed = speed;
+        }
+
+        public void MoveLeft()
+        {
+            Location = new Point(Location.X - Speed, Location.Y);
+        }
+
+        public void MoveRight()
+        {
+            Location = new Point(Location.X + Speed, Location.Y);
+        }
+    }
+}
