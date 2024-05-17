@@ -1,42 +1,118 @@
-#ИГРА
-*Платформа: Windows
-*Технологии: Windows Forms
-*Язык: C#
-*Жанры: аркада, хоррор
-*Сеттинг: Real life + потустороннее
-*Графика: 2d
-*Музыка: отельная классическая + эуткая на моментах темного корридора
-*Длительность: 30 мин максимум
+using HotelEnd.gameobj;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-----------------
-#СЮЖЕТ 
- бесконечный Отель.
-Девочка должна была идти на встречу к родителям из номера в лобби. Но пройдя мимо одной и той же комнаты два раза поняла, что что-то не так, и чем дальше тем больше искажается отель. Но путь не уменьшается и выхода нет. На пути ей встречаются духи бывших постояльцев отеля которых надо обходить, и только разорвав эту петлю собрав три ключа, она сможет вырваться от туда и дойти до лобби.
+namespace HotelEnd
+{
+    public partial class Form1 : Form
+    {
+        private Button startButton;
+        public Form1()
+        {
+            InitializeComponent();
+            InitializeGame();
+            
+        }
+        private PictureBox backgroundPictureBox;
 
-#Игровой мир 
+        //Image image = Properties.Resources.image;
+        private void InitializeGame()
+        {
+            // Настройка формы
+            this.Text = "Endless Hotel";
+            this.Size = new Size(800, 600);
+            startButton = new Button();
+            startButton.Text = "Start Game";
+            startButton.Image = image;
 
-Вид сверху, со спины.
-Номер, Коридор отеля с разными комнатами, далее темный коридор отеля с духами, лобби отеля 
-Отель в турции 
+            // Кнопка
+            startButton.ImageAlign = ContentAlignment.MiddleCenter;
+            startButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            startButton.Size = new Size(100, 100);
+            startButton.Location = new Point(1200,500);
+            startButton.Click += start_Click;
+            this.Controls.Add(startButton);
+            startButton.BringToFront();
+            // Фоновая картинка
+            backgroundPictureBox = new PictureBox();
+            backgroundPictureBox.Image = Properties.Resources.background_image;
+            backgroundPictureBox.Size = this.Size;
 
-#Геймплей 
-Игрок идет вперед по коридору, далее понимает что вернулся от туда откуда ушел. Идет дальше, коридор становится темнее появляются враги( духи) их нужно обходить по сторонам, в конце ключ, следующая комната тоже с духами, но другими (мб история отеля) три ключа так
-И петля разрывается и находится выход до лобби.
+        }
+        private void start_Click(object sender, EventArgs e)
+        {
+            Controls.Remove(startButton);
+        }
 
-#Уровни
- 1. Просто пройти вперед, увидеть что комната повторилась, появилась петля 
- 2. обходить духов найти ключ 
- 3. Духов больше, так же собрать ключ 
- 4. Духи быстрее так же найти ключ 
- 5. После трех ключей появляется выход в конце коридора, персонаж заходит в лобби.
+        private PictureBox PlayerPictureBox;
+        private PictureBox enemies;
+        private PictureBox key;
+        private int level = 1;
+        private void OneKeyDown(object sender, KeyEventArgs e)
+        {
+           
+            switch (e.KeyCode)
+            {
+                case Keys.W:
+                    // Логика движения вперед
+                    break;
+                case Keys.S:
+                    // Логика движения назад
+                    break;
+                case Keys.A:
+                    PlayerPictureBox.Location = new Point(PlayerPictureBox.Location.X - 5, PlayerPictureBox.Location.Y);
+                    break;
+                case Keys.D:
+                    PlayerPictureBox.Location = new Point(PlayerPictureBox.Location.X + 5, PlayerPictureBox.Location.Y);
+                    break;
+                    
+            }
+        }
 
-#Объекты предметы
- 1. Персонаж, девочка 
- 2. Духи
- 3. Ключи
+        private int currentLevel = 1;
+        private int maxLevel = 3; // Максимальное количество уровней
 
+        public void CheckLevelCompletion()
+        {
+            if (IsLevelCompleted())
+            {
+                if (currentLevel < maxLevel)
+                {
+                    currentLevel++;
+                    LoadNextLevel();
+                }
+                else
+                {
+                    // Игра завершена, нет больше уровней
+                    ShowGameCompletionMessage();
+                }
+            }
+        }
+        private int keyAmount = 0;
+        
+        public bool IsLevelCompleted()
+        {
+            if (keyAmount == keyAmount + 1)
+                return true;
+            return false;
+        }
 
-Взаимодействия 
-1 персонаж управление обычное wasd
-2 духи: при столкновении игра заканчивается, они идут на игрока, нужно отойти в сторону
-3 ключ - он лежит его нужно подобрать.
+        public void LoadNextLevel()
+        {
+            // Загрузка следующего уровня 
+            // Обновление игровых объектов, настроек и параметров для нового уровня
+        }
+
+        public void ShowGameCompletionMessage()
+        {
+            // Показ сообщения об окончании игры
+        }
+    }
+}
