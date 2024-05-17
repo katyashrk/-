@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace HotelEnd.gameobj
+{
+    internal class enemy
+    {
+        public PictureBox EnemyPictureBox { get; set; }
+        public int Speed { get; set; }
+        public PictureBox PlayerPictureBox { get; set; }
+
+        public enemy(PictureBox enemyPictureBox, int speed)
+        {
+            EnemyPictureBox = enemyPictureBox;
+            Speed = speed;
+        }
+
+        public void MoveForward()
+        {
+            EnemyPictureBox.Location = new Point(EnemyPictureBox.Location.X + Speed, EnemyPictureBox.Location.Y);
+        }
+        public void Die()
+        {
+            // Действие при смерти игрока
+            PlayerPictureBox.Visible = false;
+            MessageBox.Show("Вы проиграли! Попробуйте еще раз.");
+        }
+        public void CheckCollision(Player player)
+        {
+            Rectangle enemyRect = new Rectangle(EnemyPictureBox.Location, EnemyPictureBox.Size);
+            Rectangle playerRect = new Rectangle(player.PlayerPictureBox.Location, player.PlayerPictureBox.Size);
+
+            if (enemyRect.IntersectsWith(playerRect))
+            {
+                // Действие при столкновении (убийство игрока или другое действие)
+               
+            }
+
+        }
+
+    }
+}
